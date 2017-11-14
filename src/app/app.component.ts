@@ -64,8 +64,15 @@ export class AppComponent implements OnInit {
   }
 
   makeWallets() {
+    let auxWallet = _.clone(this.wallet);
+    let aux: number = 0;
+
+    this.doAgain(auxWallet);
+  }
+
+
+  doAgain(auxWallet: any[]) {
     for (let i = 0; i < 10; i++) {
-      let auxWallet = _.clone(this.wallet);
       let aux2 = this.wallet[i];
       for (let x = i; x < 10; x++) {
         let aux1 = this.wallet[x+1];
@@ -76,14 +83,37 @@ export class AppComponent implements OnInit {
       }
     }
 
-    console.log(this.vizinhosWallets[0]);
-    console.log(this.vizinhosWallets[1]);
-    console.log(this.vizinhosWallets[2]);
-    console.log(this.vizinhosWallets[3]);
-    console.log(this.vizinhosWallets[4]);
-    console.log(this.vizinhosWallets[5]);      
-    console.log(this.vizinhosWallets[6]);
-    console.log(this.vizinhosWallets[7]);
-    console.log(this.vizinhosWallets[8]);
+    this.vizinhosWallets.forEach((wallet: any) => {
+      if (wallet.length > 10) {
+        wallet.forEach((w: any) => {
+          if (w === undefined) {
+            let index = wallet.indexOf(w);
+
+            if (index >= 0) {
+              wallet.splice(index, 1, wallet[9]);
+              wallet.splice(9, 1);
+            }
+          }
+        })
+      }
+    });
+
+    console.log(this.vizinhosWallets);    
+  }
+
+  fix() {
+    for (let i = 0; i < this.vizinhosWallets.length; i++) {
+      let wallet = this.vizinhosWallets[i];
+
+      this.vizinhosWallets.forEach((insideWallet: any) => {
+        if (_.isEqual(insideWallet, wallet)) {
+          let index = this.vizinhosWallets.indexOf(insideWallet);
+
+          if (index >= 0) {
+            this.vizinhosWallets.splice(index, 1);
+          }
+        }
+      });
+    }
   }
 }
