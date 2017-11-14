@@ -1,20 +1,221 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyNTAgMjUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNTAgMjUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojREQwMDMxO30NCgkuc3Qxe2ZpbGw6I0MzMDAyRjt9DQoJLnN0MntmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMTI1LDMwIDEyNSwzMCAxMjUsMzAgMzEuOSw2My4yIDQ2LjEsMTg2LjMgMTI1LDIzMCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAJIi8+DQoJPHBvbHlnb24gY2xhc3M9InN0MSIgcG9pbnRzPSIxMjUsMzAgMTI1LDUyLjIgMTI1LDUyLjEgMTI1LDE1My40IDEyNSwxNTMuNCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAxMjUsMzAgCSIvPg0KCTxwYXRoIGNsYXNzPSJzdDIiIGQ9Ik0xMjUsNTIuMUw2Ni44LDE4Mi42aDBoMjEuN2gwbDExLjctMjkuMmg0OS40bDExLjcsMjkuMmgwaDIxLjdoMEwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMQ0KCQlMMTI1LDUyLjF6IE0xNDIsMTM1LjRIMTA4bDE3LTQwLjlMMTQyLDEzNS40eiIvPg0KPC9nPg0KPC9zdmc+DQo=">
+<div class="menu">
+  <div class="logo">
+    <span>HEURÍSTICA</span>
+  </div>
+  <nav>
+    <ul>
+      <li>
+        <button class="button-app shuffleBtn" (click)="shuffleWallet()">NOVA CARTEIRA ALEATÓRIA</button>
+        <button *ngIf="!calculate" class="button-app calculateBtn" (click)="calculateYear()">CALCULAR RETORNO ANUAL</button>
+        <span class="calculate-done calculateDoneBtn" *ngIf="calculate">RETORNO ANUAL CALCULADO</span>
+      </li>
+    </ul>
+  </nav>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="http://angularjs.blogspot.ca/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<main>
+  <div class="table-1">
+    <table style="width: 100%" class="mdl-data-table mdl-js-data-table">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Mês</th>
+          <th>Ação A</th>
+          <th>Ação B</th>
+          <th>Ação C</th>
+          <th>Ação D</th>
+          <th>Ação E</th>
+          <th>Ação F</th>
+          <th>Ação G</th>
+          <th>Ação H</th>
+          <th>Ação I</th>
+          <th>Ação J</th>
+          <th *ngIf="resultMouth?.length">Retorno</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 1</td>
+          <td>{{ actionA[0] }}</td>
+          <td>{{ actionB[0] }}</td>
+          <td>{{ actionC[0] }}</td>
+          <td>{{ actionD[0] }}</td>
+          <td>{{ actionE[0] }}</td>
+          <td>{{ actionF[0] }}</td>
+          <td>{{ actionG[0] }}</td>
+          <td>{{ actionH[0] }}</td>
+          <td>{{ actionI[0] }}</td>
+          <td>{{ actionJ[0] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[0] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 2</td>
+          <td>{{ actionA[1] }}</td>
+          <td>{{ actionB[1] }}</td>
+          <td>{{ actionC[1] }}</td>
+          <td>{{ actionD[1] }}</td>
+          <td>{{ actionE[1] }}</td>
+          <td>{{ actionF[1] }}</td>
+          <td>{{ actionG[1] }}</td>
+          <td>{{ actionH[1] }}</td>
+          <td>{{ actionI[1] }}</td>
+          <td>{{ actionJ[1] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[1] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 3</td>
+          <td>{{ actionA[2] }}</td>
+          <td>{{ actionB[2] }}</td>
+          <td>{{ actionC[2] }}</td>
+          <td>{{ actionD[2] }}</td>
+          <td>{{ actionE[2] }}</td>
+          <td>{{ actionF[2] }}</td>
+          <td>{{ actionG[2] }}</td>
+          <td>{{ actionH[2] }}</td>
+          <td>{{ actionI[2] }}</td>
+          <td>{{ actionJ[2] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[2] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 4</td>
+          <td>{{ actionA[3] }}</td>
+          <td>{{ actionB[3] }}</td>
+          <td>{{ actionC[3] }}</td>
+          <td>{{ actionD[3] }}</td>
+          <td>{{ actionE[3] }}</td>
+          <td>{{ actionF[3] }}</td>
+          <td>{{ actionG[3] }}</td>
+          <td>{{ actionH[3] }}</td>
+          <td>{{ actionI[3] }}</td>
+          <td>{{ actionJ[3] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[3] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 5</td>
+          <td>{{ actionA[4] }}</td>
+          <td>{{ actionB[4] }}</td>
+          <td>{{ actionC[4] }}</td>
+          <td>{{ actionD[4] }}</td>
+          <td>{{ actionE[4] }}</td>
+          <td>{{ actionF[4] }}</td>
+          <td>{{ actionG[4] }}</td>
+          <td>{{ actionH[4] }}</td>
+          <td>{{ actionI[4] }}</td>
+          <td>{{ actionJ[4] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[4] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 6</td>
+          <td>{{ actionA[5] }}</td>
+          <td>{{ actionB[5] }}</td>
+          <td>{{ actionC[5] }}</td>
+          <td>{{ actionD[5] }}</td>
+          <td>{{ actionE[5] }}</td>
+          <td>{{ actionF[5] }}</td>
+          <td>{{ actionG[5] }}</td>
+          <td>{{ actionH[5] }}</td>
+          <td>{{ actionI[5] }}</td>
+          <td>{{ actionJ[5] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[5] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 7</td>
+          <td>{{ actionA[6] }}</td>
+          <td>{{ actionB[6] }}</td>
+          <td>{{ actionC[6] }}</td>
+          <td>{{ actionD[6] }}</td>
+          <td>{{ actionE[6] }}</td>
+          <td>{{ actionF[6] }}</td>
+          <td>{{ actionG[6] }}</td>
+          <td>{{ actionH[6] }}</td>
+          <td>{{ actionI[6] }}</td>
+          <td>{{ actionJ[6] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[6] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 8</td>
+          <td>{{ actionA[7] }}</td>
+          <td>{{ actionB[7] }}</td>
+          <td>{{ actionC[7] }}</td>
+          <td>{{ actionD[7] }}</td>
+          <td>{{ actionE[7] }}</td>
+          <td>{{ actionF[7] }}</td>
+          <td>{{ actionG[7] }}</td>
+          <td>{{ actionH[7] }}</td>
+          <td>{{ actionI[7] }}</td>
+          <td>{{ actionJ[7] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[7] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 9</td>
+          <td>{{ actionA[8] }}</td>
+          <td>{{ actionB[8] }}</td>
+          <td>{{ actionC[8] }}</td>
+          <td>{{ actionD[8] }}</td>
+          <td>{{ actionE[8] }}</td>
+          <td>{{ actionF[8] }}</td>
+          <td>{{ actionG[8] }}</td>
+          <td>{{ actionH[8] }}</td>
+          <td>{{ actionI[8] }}</td>
+          <td>{{ actionJ[8] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[8] }}</td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 10</td>
+          <td>{{ actionA[9] }}</td>
+          <td>{{ actionB[9] }}</td>
+          <td>{{ actionC[9] }}</td>
+          <td>{{ actionD[9] }}</td>
+          <td>{{ actionE[9] }}</td>
+          <td>{{ actionF[9] }}</td>
+          <td>{{ actionG[9] }}</td>
+          <td>{{ actionH[9] }}</td>
+          <td>{{ actionI[9] }}</td>
+          <td>{{ actionJ[9] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[9] }}</td>          
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 11</td>
+          <td>{{ actionA[10] }}</td>
+          <td>{{ actionB[10] }}</td>
+          <td>{{ actionC[10] }}</td>
+          <td>{{ actionD[10] }}</td>
+          <td>{{ actionE[10] }}</td>
+          <td>{{ actionF[10] }}</td>
+          <td>{{ actionG[10] }}</td>
+          <td>{{ actionH[10] }}</td>
+          <td>{{ actionI[10] }}</td>
+          <td>{{ actionJ[10] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[10] }}</td>          
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Mês 12</td>
+          <td>{{ actionA[11] }}</td>
+          <td>{{ actionB[11] }}</td>
+          <td>{{ actionC[11] }}</td>
+          <td>{{ actionD[11] }}</td>
+          <td>{{ actionE[11] }}</td>
+          <td>{{ actionF[11] }}</td>
+          <td>{{ actionG[11] }}</td>
+          <td>{{ actionH[11] }}</td>
+          <td>{{ actionI[11] }}</td>
+          <td>{{ actionJ[11] }}</td>
+          <td *ngIf="resultMouth?.length">{{ resultMouth[11] }}</td>          
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Carteira</td>
+          <td>{{ wallet[0] * 100 }}%</td>
+          <td>{{ wallet[1] * 100 }}%</td>
+          <td>{{ wallet[2] * 100 }}%</td>
+          <td>{{ wallet[3] * 100 }}%</td>
+          <td>{{ wallet[4] * 100 }}%</td>          
+          <td>{{ wallet[5] * 100 }}%</td>
+          <td>{{ wallet[6] * 100 }}%</td>
+          <td>{{ wallet[7] * 100 }}%</td>
+          <td>{{ wallet[8] * 100 }}%</td>
+          <td>{{ wallet[9] * 100 }}%</td>
+          <td *ngIf="resultMouth?.length">{{ resultYear.toFixed(5) }}</td>
+          <td><button (click)="makeWallets()">GO!</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
