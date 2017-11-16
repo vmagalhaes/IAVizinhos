@@ -31,10 +31,8 @@ export class AppComponent implements OnInit {
   allResults: any[] = [];
   allTests: number[] = [];
   showResults = false;
-
   results: any[] = [];
-
-  private calculate = false;
+  calculate = false;
 
   ngOnInit() {
 
