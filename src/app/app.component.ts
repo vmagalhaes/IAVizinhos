@@ -70,6 +70,7 @@ export class AppComponent implements OnInit {
   shuffleWallet() {
     this.resultMouth = [];
     this.lastBetterResult = 0;
+    this.allTests = [];    
     this.resultYear = 0;
     this.calculate = false;
     this.wallet = _.shuffle(this.wallet);
@@ -79,7 +80,6 @@ export class AppComponent implements OnInit {
   }
 
   makeWallets(wallet?: any) {    
-
     let auxWallet: any;
     
     if (wallet) {
@@ -95,6 +95,7 @@ export class AppComponent implements OnInit {
   doAgain(auxWallet: any[]) {
     this.vizinhosWallets = [];
     this.resultBetter = [];
+    this.resultYear = 0;
 
     console.log(auxWallet);
     console.log(this.vizinhosWallets);
@@ -148,6 +149,7 @@ export class AppComponent implements OnInit {
       console.log(this.allTests);
       this.resultYear = this.lastBetterResult;
       this.showResults = true;
+      console.log(this.results);
       this.results.push({ id: this.results.length + 1 , result: this.resultYear, wallet: this.wallet, lastWallet: this.firstWallet, vizinhos: this.vizinhosWallets, date: Date.now(), numbers: this.allTests, isOpened: false });     
     }
   }
