@@ -98,6 +98,8 @@ export class AppComponent implements OnInit {
       }
     });
 
+    this.vizinhosWallets = _.uniqWith(this.vizinhosWallets, _.isEqual);
+
     console.log(this.vizinhosWallets);    
   }
 
