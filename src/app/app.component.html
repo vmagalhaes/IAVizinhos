@@ -1,6 +1,6 @@
 <div class="menu">
   <div class="logo">
-    <span>HEURÍSTICA</span>
+    <span (click)="changeResults()">HEURÍSTICA</span>
   </div>
   <nav>
     <ul>
@@ -8,13 +8,15 @@
         <button class="button-app shuffleBtn" (click)="shuffleWallet()">NOVA CARTEIRA ALEATÓRIA</button>
         <button *ngIf="!calculate" class="button-app calculateBtn" (click)="calculateYear()">CALCULAR RETORNO ANUAL</button>
         <span class="calculate-done calculateDoneBtn" *ngIf="calculate">RETORNO ANUAL CALCULADO</span>
+        <button *ngIf="!showResults && calculate" (click)="makeWallets()" class="button-app go">GO</button>
+        <button *ngIf="!showResults && calculate" (click)="changeResults()" class="button-app results">RESULTADOS</button>
       </li>
     </ul>
   </nav>
 </div>
 <main>
   <div class="table-1">
-    <table style="width: 100%" class="mdl-data-table mdl-js-data-table">
+    <table *ngIf="!showResults" style="width: 100%" class="mdl-data-table mdl-js-data-table">
       <thead>
         <tr>
           <th class="mdl-data-table__cell--non-numeric">Mês</th>
@@ -213,9 +215,33 @@
           <td>{{ wallet[8] * 100 }}%</td>
           <td>{{ wallet[9] * 100 }}%</td>
           <td *ngIf="resultMouth?.length">{{ resultYear.toFixed(5) }}</td>
-          <td><button (click)="makeWallets()">GO!</button></td>
         </tr>
       </tbody>
     </table>
+
+    <div [hidden]="!showResults" id="results" *ngFor="let result of results">
+      <div class="media">
+        <div class="media-body">
+          <div class="header-result result">
+            <span><b>#{{ result.id }} Melhor resultado: {{ result.result.toFixed(5) }}</b></span> | <span><b>Melhor carteira: </b>[{{ result.wallet | percertual }} ]</span>
+          </div>
+          <div class="result-second result">
+            <span><b>Última carteira inicial:</b> [{{ result.lastWallet | percertual }} ]</span><br/>          
+          </div>
+          <div (click)="result.isOpened=!result.isOpened" class="result-third result">
+            <span><b>Últimos vizinhos </b></span><br/>
+          </div>
+          <div [hidden]="!result.isOpened" class="result-third-vizinhos">
+            <span *ngFor="let vizinho of result.vizinhos">[{{ vizinho }}] </span>              
+          </div>
+          <div class="result-fourth result">
+            <span><b>Todos os maiores resultados até chegar no maior:</b> <span *ngFor="let number of result.numbers">[{{ number.toFixed(5) }}] </span></span><br/>
+          </div>
+          <div class="result-fifty result">
+            <span><b>Data: {{ result.date | date: 'yyyy-MM-dd HH:mm'}}</b></span>              
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </main>

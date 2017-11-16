@@ -23,8 +23,16 @@ export class AppComponent implements OnInit {
 
   resultMouth: any[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   resultYear: number = 0;
+  lastBetterResult: number = 0.20635;
+  firstWallet: any[] = [0.30, 0.25, 0.20, 0.15, 0.10, 0.0, 0.0, 0.0, 0.0, 0.0];
   wallet: any[] = [0.30, 0.25, 0.20, 0.15, 0.10, 0.0, 0.0, 0.0, 0.0, 0.0];
   vizinhosWallets: any[] = [];
+  resultBetter: number[] = [];
+  allResults: any[] = [];
+  allTests: number[] = [];
+  showResults = false;
+
+  results: any[] = [];
 
   private calculate = false;
 
@@ -33,6 +41,7 @@ export class AppComponent implements OnInit {
   }
 
   calculateYear(wallet?: any[]) {
+    this.resultYear = 0;
     this.calculate = true;
     if (!wallet) {
       wallet = this.wallet;
@@ -54,24 +63,45 @@ export class AppComponent implements OnInit {
     for (let i = 0; this.resultMouth.length > i; i++) {
       this.resultYear = +this.resultMouth[i] + this.resultYear;
     }
+
+    this.allResults.push({ result: this.resultYear, wallet: wallet });
+
+    return this.resultYear;
   }
 
   shuffleWallet() {
     this.resultMouth = [];
+    this.lastBetterResult = 0;
     this.resultYear = 0;
     this.calculate = false;
     this.wallet = _.shuffle(this.wallet);
+    this.firstWallet = this.wallet;
+    console.log(this.firstWallet);
+    this.showResults = false;
   }
 
-  makeWallets() {
-    let auxWallet = _.clone(this.wallet);
-    let aux: number = 0;
+  makeWallets(wallet?: any) {    
+
+    let auxWallet: any;
+    
+    if (wallet) {
+      auxWallet = _.clone(wallet);
+    } else {
+      auxWallet = _.clone(this.wallet);
+    }
 
     this.doAgain(auxWallet);
   }
 
 
   doAgain(auxWallet: any[]) {
+    this.vizinhosWallets = [];
+    this.resultBetter = [];
+
+    console.log(auxWallet);
+    console.log(this.vizinhosWallets);
+    console.log(this.resultBetter);
+
     for (let i = 0; i < 10; i++) {
       let aux2 = this.wallet[i];
       for (let x = i; x < 10; x++) {
@@ -98,9 +128,30 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.vizinhosWallets = _.uniqWith(this.vizinhosWallets, _.isEqual);
+    this.vizinhosWallets = _.uniqWith(this.vizinhosWallets, _.isEqual); //REMOVER TODOS OS IGUAIS
+    this.vizinhosWallets.splice(35, 1); //O ÚLTIMO É O INICIAL
 
-    console.log(this.vizinhosWallets);    
+    this.vizinhosWallets.forEach((wallet: any) => {
+      this.resultBetter.push(this.calculateYear(wallet));
+    });
+
+    console.log(this.resultBetter);
+
+    let larger = Math.max.apply(Math, this.resultBetter);
+    let largerResult = _.find(this.allResults, { result: larger });
+    this.wallet = largerResult.wallet;
+    console.log(larger);
+    this.allTests.push(larger);
+
+    if (larger > this.lastBetterResult) {
+      this.lastBetterResult = larger;
+      this.letsDoAgain(largerResult.wallet);
+    } else {
+      console.log(this.allTests);
+      this.resultYear = this.lastBetterResult;
+      this.showResults = true;
+      this.results.push({ id: this.results.length + 1 , result: this.resultYear, wallet: this.wallet, lastWallet: this.firstWallet, vizinhos: this.vizinhosWallets, date: Date.now(), numbers: this.allTests, isOpened: false });     
+    }
   }
 
   fix() {
@@ -117,5 +168,13 @@ export class AppComponent implements OnInit {
         }
       });
     }
+  }
+
+  changeResults() {
+    this.showResults = !this.showResults;
+  }
+
+  letsDoAgain(wallet: any) {
+    this.makeWallets(wallet);
   }
 }
